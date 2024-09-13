@@ -7,8 +7,13 @@
     "magento/framework": "*",
     "prodevtools/magento2-base": "1.0.*"
   },
-  "license": [
-    "Proprietary"
+  "license": "MIT",
+  "authors": [
+    {
+        "name": "Alexander Tsyrulnikau",
+        "email": "im.alex.ts.86@gmail.com",
+        "role": "Developer"
+    }
   ],
   "autoload": {
     "files": [
