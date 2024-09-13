@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="dev_query_log_enable" xsi:type="object">ProDevTools\QueryLogger\Console\Command\QueryLogEnableCommand</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Magento\Framework\DB\Logger\File">
+        <plugin name="ProDevTools_QueryLogger::filter_table_query_logging"
+                type="ProDevTools\QueryLogger\Plugin\DB\Logger\FilterTableQuery" sortOrder="10" />
+    </type>
+</config>
