@@ -35,19 +35,13 @@ The **ProDevTools Query Logger** module for Magento 2 enhances the default query
 
 ### 2. Install via Composer
 
-1. Add the repository to your `composer.json`:
+1. Run the following Composer command to install the module:
 
     ```bash
     composer require prodevtools/magento2-query-logger
     ```
 
-2. Run the following Composer command to install the module:
-
-    ```bash
-    composer require prodevtools/magento2-query-logger
-    ```
-
-3. Enable the module:
+2. Enable the module:
 
     ```bash
     php bin/magento setup:upgrade
