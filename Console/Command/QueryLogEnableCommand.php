@@ -56,7 +56,7 @@ class QueryLogEnableCommand extends CoreQueryLogEnableCommand
      * @param OutputInterface $output
      * @return int
      */
-    protected function execute(InputInterface $input, OutputInterface $output): int
+    protected function execute(InputInterface $input, OutputInterface $output)
     {
         // Retrieve table filters option from input
         $tableFilters = $input->getOption(self::INPUT_ARG_TABLE_FILTERS);
