@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Config/etc/system_file.xsd">
+    <system>
+        <section id="query_logger" translate="label" sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+            <label>Query Logger</label>
+            <tab>prodevtools_configuration</tab>
+            <resource>ProDevTools_QueryLogger::query_logger</resource>
+            <group id="general" translate="label" type="text"
+                   sortOrder="1" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enable" translate="label" type="select"
+                       sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enable</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="table_list" translate="label comment" type="text" sortOrder="10"
+                       showInDefault="1" canRestore="1">
+                    <label>Table List</label>
+                    <comment>Table name separated by commas.</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="query_time_threshold" translate="label comment" type="text" sortOrder="20"
+                       showInDefault="1" canRestore="1">
+                    <label>Query Time Threshold</label>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+                <field id="include_stacktrace" translate="label comment" type="select" sortOrder="30"
+                       showInDefault="1" canRestore="1">
+                    <label>Include Stacktrace</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

@@ -62,12 +62,9 @@ class FilterTableQuery
         // Extract the table name from the query
         $tableName = $this->getTableNameFromQuery($sql);
 
-        // Log the query if the table is in the filter list
-        if ($tableName && in_array($tableName, $filterTables, true)) {
-            return $proceed($type, $sql, $bind, $result);
-        }
-
-        return '';
+        return ($tableName && isset($filterTables[$tableName]))
+            ? $proceed($type, $sql, $bind, $result)
+            : '';
     }
 
     /**
@@ -87,7 +84,8 @@ class FilterTableQuery
 
             // If the config value is a string, split it into an array
             if ($configValue) {
-                $this->configFilterTables = explode(',', $configValue);
+                $tables = explode(',', $configValue);
+                $this->configFilterTables = array_flip(array_map('trim', $tables));
             }
         }
 
@@ -102,17 +100,8 @@ class FilterTableQuery
      */
     private function getTableNameFromQuery(string $query): ?string
     {
-        // Patterns to match the table name in different types of SQL queries
-        $patterns = [
-            '/\bFROM\s+`?(\w+)`?/i',        // SELECT, DELETE
-            '/\bUPDATE\s+`?(\w+)`?/i',      // UPDATE
-            '/\bINTO\s+`?(\w+)`?/i',        // INSERT
-        ];
-
-        foreach ($patterns as $pattern) {
-            if (preg_match($pattern, $query, $matches)) {
-                return $matches[1];
-            }
+        if (preg_match('/\b(?:FROM|UPDATE|INTO)\s+`?(\w+)`?/i', $query, $matches)) {
+            return $matches[1];
         }
 
         return null;
