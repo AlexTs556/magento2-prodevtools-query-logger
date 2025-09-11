@@ -10,13 +10,18 @@ use Magento\Framework\DB\Logger\LoggerProxy;
 use Magento\Framework\Exception\FileSystemException;
 use Magento\Framework\Exception\RuntimeException;
 use ProDevTools\QueryLogger\Console\Command\QueryLogEnableCommand;
+use ProDevTools\QueryLogger\Model\Config;
 
 class FilterTableQuery
 {
+
+    private const PARAM_QUERY_TYPE = 'query_type';
+
     /**
      * @var array List of tables to be filtered from logging.
      */
     private array $configFilterTables = [];
+    private array $configQueryTepe = [];
 
     /**
      * Constructor
@@ -59,6 +64,10 @@ class FilterTableQuery
             return $proceed($type, $sql, $bind, $result);
         }
 
+        if (!$this->isQueryTypeAllowed($sql, $this->getQueryTepes())) {
+            return '';
+        }
+
         // Extract the table name from the query
         $tableName = $this->getTableNameFromQuery($sql);
 
@@ -93,6 +102,27 @@ class FilterTableQuery
     }
 
     /**
+     * @return array
+     * @throws FileSystemException
+     * @throws RuntimeException
+     */
+    private function getQueryTepes(): array
+    {
+        if (empty($this->configQueryTepe)) {
+            $configValue = $this->deploymentConfig->get(
+                LoggerProxy::CONF_GROUP_NAME . '/' . self::PARAM_QUERY_TYPE
+            );
+
+            if ($configValue) {
+                $queryTepes = explode(',', $configValue);
+                $this->configQueryTepe = array_map('trim', $queryTepes);
+            }
+        }
+
+        return $this->configQueryTepe;
+    }
+
+    /**
      * Extracts the table name from a SQL query.
      *
      * @param string $query The SQL query string.
@@ -105,5 +135,25 @@ class FilterTableQuery
         }
 
         return null;
+    }
+
+    private function isQueryTypeAllowed(string $sql, array $queryTypes): bool
+    {
+        if (empty($queryTypes)) {
+            return true;
+        }
+
+        $sql = preg_replace('/\/\*.*?\*\//s', '', $sql);
+        $sql = preg_replace('/--.*$/m', '', $sql);
+        $sql = trim($sql);
+
+        foreach ($queryTypes as $type) {
+            $type = trim($type);
+            if (preg_match('/^\s*' . preg_quote($type, '/') . '\b/i', $sql)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

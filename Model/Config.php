@@ -12,6 +12,7 @@ class Config
     private const PATH_TO_ENABLE_CONFIG = 'query_logger/general/enable';
     private const PATH_TO_TABLE_LIST = 'query_logger/general/table_list';
     private const PATH_TO_PARAM_QUERY_TIME = 'query_logger/general/query_time_threshold';
+    private const PATH_TO_PARAM_QUERY_TYPE = 'query_logger/general/query_type';
     private const PATH_TO_PARAM_CALL_STACK = 'query_logger/general/include_stacktrace';
 
     /**
@@ -78,6 +79,16 @@ class Config
     public function getQueryTimeThreshold(): float
     {
         return (float)($this->getStoreConfig(self::PATH_TO_PARAM_QUERY_TIME) ?? 0.001);
+    }
+
+    /**
+     * Get Query Types
+     * 
+     * @return string
+     */
+    public function getQueryTypes(): string
+    {
+        return $this->getStoreConfig(self::PATH_TO_PARAM_QUERY_TYPE);
     }
 
     /**

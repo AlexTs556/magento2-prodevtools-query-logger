@@ -29,6 +29,14 @@
                         <field id="enable">1</field>
                     </depends>
                 </field>
+                <field id="query_type" translate="label comment" type="text" sortOrder="25"
+                       showInDefault="1" canRestore="1">
+                    <label>Query Type</label>
+                    <comment>Query Type (select,insert,update) separated by commas.</comment>
+                    <depends>
+                        <field id="enable">1</field>
+                    </depends>
+                </field>
                 <field id="include_stacktrace" translate="label comment" type="select" sortOrder="30"
                        showInDefault="1" canRestore="1">
                     <label>Include Stacktrace</label>

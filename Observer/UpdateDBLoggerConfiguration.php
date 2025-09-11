@@ -17,6 +17,8 @@ use Psr\Log\LoggerInterface;
 
 class UpdateDBLoggerConfiguration implements ObserverInterface
 {
+    private const PARAM_QUERY_TYPE = 'query_type';
+    
     /**
      * @param Writer $deployConfigWriter
      * @param Config $config
@@ -54,6 +56,7 @@ class UpdateDBLoggerConfiguration implements ObserverInterface
             $configGroup = [
                 LoggerProxy::CONF_GROUP_NAME => [
                     QueryLogEnableCommand::PARAM_TABLE_FILTERS => $this->config->getTableList(),
+                    self::PARAM_QUERY_TYPE => $this->config->getQueryTypes(),
                     LoggerProxy::PARAM_ALIAS => LoggerProxy::LOGGER_ALIAS_FILE,
                     LoggerProxy::PARAM_LOG_ALL => 1,
                     LoggerProxy::PARAM_QUERY_TIME => number_format($this->config->getQueryTimeThreshold(), 3),
